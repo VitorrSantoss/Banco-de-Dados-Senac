@@ -1,0 +1,18 @@
+
+/*CRIANDO E USANDO O BANCO DE DADOS*/
+CREATE DATABASE loja_de_roupas;
+USE loja_de_roupas;
+
+
+/*CRIANDO AS TABELAS*/
+CREATE TABLE Produto(
+  cod_unico INT PRIMARY KEY AUTO_INCREMENT,
+  nome VARCHAR(45) NOT NULL,
+  descricao VARCHAR(255) NOT NULL,
+  preco DOUBLE NOT NULL,
+  tamanho VARCHAR(45) NOT NULL,
+  cor VARCHAR(45) NOT NULL,
+  marca VARCHAR(45) NOT NULL
+)
+
+
