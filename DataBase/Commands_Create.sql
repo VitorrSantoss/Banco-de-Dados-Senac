@@ -59,3 +59,31 @@ CREATE TABLE  `lojaroupas`.`Fornecedores` (
   ENGINE = InnoDB;
 
 
+-- -----------------------------------------------------
+-- Table `lojaroupas`.`funcionário`
+-- -----------------------------------------------------
+CREATE TABLE `lojaroupas`.`funcionario` (
+  `id_funcionario` INT NOT NULL AUTO_INCREMENT,
+  `nome_completo` VARCHAR(100) NOT NULL,
+  `cargo` VARCHAR(50) NOT NULL,
+  `data_contratacao` DATE NOT NULL,
+  `salario` DECIMAL NOT NULL,
+  `telefone` VARCHAR(20) NOT NULL,
+  `email` VARCHAR(100) NOT NULL,
+  PRIMARY KEY (`id_funcionario`),
+  UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE,
+  UNIQUE INDEX `telefone_UNIQUE` (`telefone` ASC) VISIBLE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `lojaroupas`.`promoções`
+-- -----------------------------------------------------
+CREATE TABLE `lojaroupas`.`promocoes` (
+  `id_promocao` INT NOT NULL AUTO_INCREMENT,
+  `nome_promocao` VARCHAR(100) NOT NULL,
+  `data_inicio` DATE NOT NULL,
+  `data_termino` DATE NOT NULL,
+  `percentual_desconto` DECIMAL(5,2) NOT NULL,
+  PRIMARY KEY (`id_promocao`))
+ENGINE = InnoDB;
