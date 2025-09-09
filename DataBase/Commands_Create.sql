@@ -1,89 +1,82 @@
 
+/* CRIAÇÃO DO BANCO DE DADOS*/
 
-CREATE DATABASE loja_de_roupas;
-USE loja_de_roupas;
+CREATE DATABASE loja_roupas;
+USE loja_roupas;
 
+/* CRIAÇÃO DAS TABELAS*/
 
+CREATE TABLE tb_categoria_produto ( 
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(45) NOT NULL
+);
 
-CREATE TABLE Produto(
-  cod_unico INT PRIMARY KEY AUTO_INCREMENT,
-  nome VARCHAR(45) NOT NULL,
-  descricao VARCHAR(255) NOT NULL,
-  preco DOUBLE NOT NULL,
-  tamanho VARCHAR(45) NOT NULL,
-  cor VARCHAR(45) NOT NULL,
-  marca VARCHAR(45) NOT NULL
-)
+CREATE TABLE tb_estoque (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    qtd_disponivel VARCHAR(45) NOT NULL,
+    data_entrada DATETIME NOT NULL,
+    data_saida DATETIME NOT NULL
+);
 
--- Criação de tabelas
--- -----------------------------------------------------
--- Table `lojaroupas`.`estoque`
--- -----------------------------------------------------
-CREATE TABLE `lojaroupas`.`estoque` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `id_produto` INT NOT NULL,
-  `cor` VARCHAR(50) NOT NULL,
-  `tamanho` VARCHAR(10) NOT NULL,
-  `quantidade` INT NOT NULL DEFAULT 0,
-  `ultima_atualizacao` TIMESTAMP NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB;
+CREATE TABLE tb_fornecedores (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    cnpj VARCHAR(18) NOT NULL,
+    telefone VARCHAR(20) NOT NULL,
+    cep VARCHAR(10) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    uf VARCHAR(2) NOT NULL,
+    cidade VARCHAR(45) NOT NULL,
+    UNIQUE INDEX cnpj_UNIQUE (cnpj ASC),
+    UNIQUE INDEX telefone_UNIQUE (telefone ASC),
+    UNIQUE INDEX cep_UNIQUE (cep ASC),
+    UNIQUE INDEX cidade_UNIQUE (cidade ASC)
+);
 
+CREATE TABLE tb_produtos (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    cod_produto INT UNSIGNED NOT NULL,
+    nome VARCHAR(45) NOT NULL,
+    descricao VARCHAR(45) NULL DEFAULT NULL,
+    preco DECIMAL(10, 2) NOT NULL,
+    tamanho VARCHAR(45) NOT NULL,
+    cor VARCHAR(45) NOT NULL,
+    marca VARCHAR(45) NOT NULL
+);
 
--- -----------------------------------------------------
--- Table `lojaroupas`.`Fornecedores`
--- -----------------------------------------------------
-CREATE TABLE  `lojaroupas`.`Fornecedores` (
-  `idFornecedores` INT NOT NULL AUTO_INCREMENT,
-  `razao_social` VARCHAR(255) NOT NULL,
-  `nome_fantasia` VARCHAR(255) NULL,
-  `cnpj` VARCHAR(18) NOT NULL,
-  `telefone` VARCHAR(20) NOT NULL,
-  `email` VARCHAR(100) NOT NULL,
-  `Fornecedorescol` VARCHAR(45) NULL,
-  `nome_contato` VARCHAR(100) NOT NULL,
-  `cep` VARCHAR(9) NOT NULL,
-  `logradouro` VARCHAR(255) NOT NULL,
-  `numero` VARCHAR(10) NOT NULL,
-  `complemento` VARCHAR(100) NOT NULL,
-  `bairro` VARCHAR(100) NOT NULL,
-  `cidade` VARCHAR(100) NOT NULL,
-  `estado` VARCHAR(2) NOT NULL,
-  
-  
-  PRIMARY KEY (`idFornecedores`),
-  UNIQUE INDEX `razao_social_UNIQUE` (`razao_social` ASC) VISIBLE,
-  UNIQUE INDEX `cnpj_UNIQUE` (`cnpj` ASC) VISIBLE,
-  UNIQUE INDEX `telefone_UNIQUE` (`telefone` ASC) VISIBLE,
-  UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE)
-  ENGINE = InnoDB;
+CREATE TABLE tb_clientes (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    endereco VARCHAR(75) NOT NULL,
+    telefone VARCHAR(20) NULL,
+    email VARCHAR(100) NOT NULL,
+    cpf VARCHAR(45) NOT NULL,
+    UNIQUE INDEX cpf_UNIQUE (cpf ASC)
+);
 
+CREATE TABLE tb_vendas (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    data_venda DATE NOT NULL,
+    tb_produtos_id INT NOT NULL
+);
 
--- -----------------------------------------------------
--- Table `lojaroupas`.`funcionário`
--- -----------------------------------------------------
-CREATE TABLE `lojaroupas`.`funcionario` (
-  `id_funcionario` INT NOT NULL AUTO_INCREMENT,
-  `nome_completo` VARCHAR(100) NOT NULL,
-  `cargo` VARCHAR(50) NOT NULL,
-  `data_contratacao` DATE NOT NULL,
-  `salario` DECIMAL NOT NULL,
-  `telefone` VARCHAR(20) NOT NULL,
-  `email` VARCHAR(100) NOT NULL,
-  PRIMARY KEY (`id_funcionario`),
-  UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE,
-  UNIQUE INDEX `telefone_UNIQUE` (`telefone` ASC) VISIBLE)
-ENGINE = InnoDB;
+CREATE TABLE tb_funcionarios (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(45) NOT NULL,
+    cargo VARCHAR(45) NOT NULL,
+    contato VARCHAR(45) NOT NULL,
+    indentificacao VARCHAR(45) NOT NULL
+);
 
-
--- -----------------------------------------------------
--- Table `lojaroupas`.`promoções`
--- -----------------------------------------------------
-CREATE TABLE `lojaroupas`.`promocoes` (
-  `id_promocao` INT NOT NULL AUTO_INCREMENT,
-  `nome_promocao` VARCHAR(100) NOT NULL,
-  `data_inicio` DATE NOT NULL,
-  `data_termino` DATE NOT NULL,
-  `percentual_desconto` DECIMAL(5,2) NOT NULL,
-  PRIMARY KEY (`id_promocao`))
-ENGINE = InnoDB;
+CREATE TABLE tb_produtos (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    cod_produto INT NOT NULL,
+    nome VARCHAR(45) NOT NULL,
+    descricao VARCHAR(255) NULL DEFAULT NULL,
+    preco DECIMAL(10, 2) NOT NULL,
+    tamanho VARCHAR(45) NULL DEFAULT NULL,
+    cor VARCHAR(45) NULL DEFAULT NULL,
+    marca VARCHAR(45) NULL DEFAULT NULL,
+    tb_categoria_produto_id INT NOT NULL,
+    UNIQUE INDEX cod_produto (cod_produto ASC),
+    INDEX tb_categoria_produto_id (tb_categoria_produto_id ASC),
+    CONSTRAINT tb_produtos_ibfk_1 FOREIGN KEY (tb_categoria_produto_id) REFERENCES tb_categoria_produtos (id)
+);
